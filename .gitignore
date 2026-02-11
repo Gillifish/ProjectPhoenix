@@ -1,0 +1,45 @@
+# Created by Claude Code
+# Build directories
+build/
+cmake-build-*/
+out/
+
+# IDE files
+.idea/
+.vscode/
+.claude/
+.cache/
+*.swp
+*.swo
+*~
+
+# Compiled binaries
+*.exe
+*.app
+*.out
+*.dll
+*.so
+*.dylib
+
+# Object files
+*.o
+*.obj
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# macOS
+.DS_Store
+*.dSYM/
+
+# Windows
+Thumbs.db
+*.user
+*.suo
+
+# Other files
+imgui.ini
