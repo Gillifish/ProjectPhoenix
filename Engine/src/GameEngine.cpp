@@ -2,8 +2,6 @@
 #include <imgui-SFML.h>
 #include <imgui.h>
 
-#include <iostream>
-
 GameEngine::GameEngine(const std::string &path)
 {
     init(path);
@@ -15,7 +13,7 @@ void GameEngine::init(const std::string &path)
 
     m_window.create(sf::VideoMode(1200, 768), "Phoenix Engine");
     m_window.setFramerateLimit(60);
-    ImGui::SFML::Init(m_window);
+    bool res = ImGui::SFML::Init(m_window);
 
     // TODO: changeScene("EXAMPLESCENE", std::make_shared<ExampleScene>(this));
 }
@@ -104,12 +102,12 @@ Assets &GameEngine::assets()
     return m_assets;
 }
 
-const size_t GameEngine::width() const
+size_t GameEngine::width() const
 {
     return m_window.getSize().x;
 }
 
-const size_t GameEngine::height() const
+size_t GameEngine::height() const
 {
     return m_window.getSize().y;
 }

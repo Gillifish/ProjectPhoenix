@@ -25,9 +25,12 @@ struct FontConfig
 struct AnimationConfig
 {
     std::string name;
-    std::string texName; 
+    std::string texName;
     size_t frameCount;
     size_t speed;
+    size_t gridColumns = 0;
+    size_t gridRows = 0;
+    size_t startRow = 0;
 };
 
 class Assets

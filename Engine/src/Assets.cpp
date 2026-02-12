@@ -38,7 +38,14 @@ void Assets::loadFromFile(std::string path)
             iss >> aConfig.frameCount;
             iss >> aConfig.speed;
 
-            addAnimation(aConfig.name, Animation(aConfig.name, getTexture(aConfig.texName), aConfig.frameCount, aConfig.speed));
+            if (iss >> aConfig.gridColumns >> aConfig.gridRows >> aConfig.startRow)
+            {
+                addAnimation(aConfig.name, Animation(aConfig.name, getTexture(aConfig.texName), aConfig.frameCount, aConfig.speed, aConfig.gridColumns, aConfig.gridRows, aConfig.startRow));
+            }
+            else
+            {
+                addAnimation(aConfig.name, Animation(aConfig.name, getTexture(aConfig.texName), aConfig.frameCount, aConfig.speed));
+            }
         }
 
         if (token == "Font")

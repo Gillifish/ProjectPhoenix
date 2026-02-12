@@ -22,10 +22,9 @@ typedef std::vector<Tile> TileVec;
 
 class Tilemap
 {
-
+    std::string m_texTag = "none";
     Vec2 m_tileSize = { 32, 32 };
     std::string m_mapFilePath = "";
-    std::string m_texTag = "none";
     std::string m_tileTag = "TILEMAP";
     TileVec m_tVec;
     

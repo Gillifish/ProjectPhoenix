@@ -10,6 +10,18 @@ ExampleScene::ExampleScene(GameEngine *gameEngine)
 
 void ExampleScene::init()
 {
+    auto e = m_entityManager.addEntity("player");
+    e->addComponent<CTransform>().pos = gridToMidPixel(2, 2, 0, -8);
+    e->addComponent<CState>("IDLE_DOWN");
+    e->addComponent<CAnimation>(m_game->assets().getAnimation("IDLE_DOWN"), true);
+    e->addComponent<CBoundingBox>(Vec2(32, 48));
+    e->addComponent<CDirection2D>(Direction::DOWN);
+
+    m_player = e;
+
+    m_camera.setSize(sf::Vector2f(960.0, 640.0f));
+    m_camera.setCenter(m_player->getComponent<CTransform>().pos.x, m_player->getComponent<CTransform>().pos.x);
+    m_camera.zoom(0.7);
 }
 
 void ExampleScene::topLayer()
@@ -46,6 +58,9 @@ void ExampleScene::sMovement()
 
 void ExampleScene::sCamera()
 {
+    auto pos = m_player->getComponent<CTransform>().pos;
+    m_camera.setCenter(sf::Vector2f(pos.x, pos.y));
+    m_game->window().setView(m_camera);
 }
 
 void ExampleScene::sLifespan()
@@ -58,10 +73,42 @@ void ExampleScene::sCollision()
 
 void ExampleScene::sAnimation()
 {
+    if (m_player->getComponent<CState>().state == "IDLE_DOWN" && m_player->getComponent<CAnimation>().animation.getName() != "IDLE_DOWN")
+    {
+        m_player->addComponent<CAnimation>(m_game->assets().getAnimation("IDLE_DOWN"));
+    }
+
+    for (auto e : m_entityManager.getEntities())
+    {
+        e->getComponent<CAnimation>().animation.update();
+    }
 }
 
 void ExampleScene::sRender()
 {
+    m_tilemap.render(m_entityManager, m_game->window());
+
+    for (auto e : m_entityManager.getEntities())
+    {
+        auto &transform = e->getComponent<CTransform>();
+
+        if (e->hasComponent<CAnimation>())
+        {
+            auto &animation = e->getComponent<CAnimation>().animation;
+            animation.getSprite().setRotation(transform.angle);
+            animation.getSprite().setPosition(transform.pos.x, transform.pos.y);
+            animation.getSprite().setScale(transform.scale.x, transform.scale.y);
+            m_game->window().draw(animation.getSprite());
+        }
+
+        if (e->hasComponent<CBoundingBox>() && e->getComponent<CBoundingBox>().active)
+        {
+            auto &bBox = e->getComponent<CBoundingBox>();
+            bBox.rect.setPosition(transform.pos.x, transform.pos.y);
+            m_game->window().draw(bBox.rect);
+        }
+    }
+
     ImGui::ShowDemoWindow();
 }
 
