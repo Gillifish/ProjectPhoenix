@@ -10,6 +10,9 @@ ExampleScene::ExampleScene(GameEngine *gameEngine)
 
 void ExampleScene::init()
 {
+    m_tilemap = Tilemap("outside_tileset", Vec2(32, 32), "config/testmap.txt");
+    m_tilemap.loadMap(m_entityManager, m_game->assets());
+
     auto e = m_entityManager.addEntity("player");
     e->addComponent<CTransform>().pos = gridToMidPixel(2, 2, 0, -8);
     e->addComponent<CState>("IDLE_DOWN");
@@ -22,6 +25,16 @@ void ExampleScene::init()
     m_camera.setSize(sf::Vector2f(960.0, 640.0f));
     m_camera.setCenter(m_player->getComponent<CTransform>().pos.x, m_player->getComponent<CTransform>().pos.x);
     m_camera.zoom(0.7);
+
+    Tile testTile;
+    testTile.tag = "TILEMAP";
+    testTile.textureX = 0;
+    testTile.textureY = 0;
+    testTile.renderX = 0;
+    testTile.renderY = 0;
+    testTile.collision = false;
+
+    registerAction(sf::Mouse::Left + 1000, "LEFT_MOUSE");
 }
 
 void ExampleScene::topLayer()
@@ -122,6 +135,18 @@ void ExampleScene::sDebug()
 
 void ExampleScene::sDoAction(const Action &action)
 {
+    if (action.type() == "START")
+    {
+        if (action.name() == "LEFT_MOUSE")
+        {
+            std::cout << "Mouse Clicked" << std::endl;
+        }
+    }
+
+    if (action.type() == "END")
+    {
+
+    }
 }
 
 Vec2 ExampleScene::gridToMidPixel(float gridX, float gridY, float offsetX, float offsetY)

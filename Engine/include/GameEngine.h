@@ -4,6 +4,7 @@
 
 #include "Assets.h"
 #include "Scene.h"
+#include "Tilemap.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
 
@@ -28,6 +29,7 @@ protected:
     Assets m_assets;
     std::string m_currentScene;
     SceneMap m_sceneMap;
+    Tilemap m_tmap;
     size_t m_simulationSpeed = 1;
     bool m_running = true;
     sf::Color m_background = {0, 0, 0};

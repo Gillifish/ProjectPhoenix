@@ -1,7 +1,5 @@
 #include "Default_Scene.h"
 
-#include <iostream>
-
 Default_Scene::Default_Scene(GameEngine *gameEngine)
 : Scene(gameEngine)
 {
@@ -76,4 +74,12 @@ void Default_Scene::update()
 
 void Default_Scene::onEnd()
 {
+}
+
+Vec2 Default_Scene::gridToMidPixel(float gridX, float gridY, float offsetX, float offsetY)
+{
+    float pixelX = gridX * m_tileWidth;
+    float pixelY = gridY * m_tileHeight;
+
+    return Vec2((pixelX + (m_tileWidth / 2)) + offsetX, (pixelY + (m_tileHeight / 2)) + offsetY);
 }

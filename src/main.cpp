@@ -8,5 +8,6 @@ int main(int argc, char const *argv[])
     engine->changeScene("EXAMPLESCENE", std::make_shared<ExampleScene>(engine.get()));
 
     engine->run();
+
     return 0;
 }

@@ -1,3 +1,4 @@
 Texture      player_anims		assets/trchar000.png
+Texture		 outside_tileset	assets/Outside.png
 
 Animation    IDLE_DOWN          player_anims    		4   10  4  4  0

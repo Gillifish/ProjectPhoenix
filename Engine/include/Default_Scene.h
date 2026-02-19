@@ -12,6 +12,8 @@ class Default_Scene : public Scene
     std::string m_levelPath;
     std::shared_ptr<Entity> m_player;
     PlayerConfig playerConfig;
+    float m_tileWidth = 32;
+    float m_tileHeight = 32;
 
     void init(const std::string &levelPath);
 
@@ -29,6 +31,6 @@ class Default_Scene : public Scene
 public:
     Default_Scene(GameEngine *gameEngine);
     Default_Scene(GameEngine *gameEngine, const std::string &levelPath);
-    //Vec2 gridToMidPixel(float gridX, float gridY, std::shared_ptr<Entity> entity);
+    Vec2 gridToMidPixel(float gridX, float gridY, float offsetX = 0, float offsetY = 0);
     void update();
 };

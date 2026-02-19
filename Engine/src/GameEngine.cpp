@@ -15,6 +15,11 @@ void GameEngine::init(const std::string &path)
     m_window.setFramerateLimit(60);
     bool res = ImGui::SFML::Init(m_window);
 
+    if (!res) 
+    {
+        exit(1);
+    }
+
     // TODO: changeScene("EXAMPLESCENE", std::make_shared<ExampleScene>(this));
 }
 
@@ -88,6 +93,18 @@ void GameEngine::sUserInput()
 
             // look up the action and send the action to the scene
             currentScene()->sDoAction(Action(currentScene()->getActionMap().at(event.key.code), actionType));
+        }
+
+        if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased)
+        {
+            // offset mouse button codes by 1000 to avoid collisions with keyboard key codes
+            int mouseCode = event.mouseButton.button + 1000;
+
+            if (currentScene()->getActionMap().find(mouseCode) == currentScene()->getActionMap().end()) { continue; }
+
+            const std::string actionType = (event.type == sf::Event::MouseButtonPressed) ? "START" : "END";
+
+            currentScene()->sDoAction(Action(currentScene()->getActionMap().at(mouseCode), actionType));
         }
     }
 }

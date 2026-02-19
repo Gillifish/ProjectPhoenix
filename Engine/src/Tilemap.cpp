@@ -5,6 +5,13 @@ Tilemap::Tilemap(std::string texTag, Vec2 size, std::string filePath) :
     m_tileSize(size),
     m_mapFilePath(filePath)
 {
+    m_errorTile.tag = "ERRORTILE";
+    m_errorTile.textureX = 0;
+    m_errorTile.textureY = 0;
+    m_errorTile.renderX = 0;
+    m_errorTile.renderY = 0;
+    m_errorTile.collision = false;
+
     loadMapFile();
 }
 
@@ -92,6 +99,78 @@ std::string Tilemap::getTileTag()
 std::string Tilemap::getTextureTag()
 {
     return m_texTag;
+}
+
+// *** Be careful of iterator invalidation on the tile vector
+Tile& Tilemap::getTileByPosition(float renderX, float renderY)
+{
+    for (auto& i : m_tVec)
+    {
+        if (i.renderX == renderX && i.renderY == renderY)
+        {
+            return i;
+        }
+    }
+
+    return m_errorTile;
+}
+
+void Tilemap::addTile(Tile t)
+{
+    m_tVec.push_back(t);
+}
+
+void Tilemap::addTile(std::string tag, float textureX, float textureY, float renderX, float renderY, bool collision)
+{
+    Tile t;
+    t.tag = tag;
+    t.textureX = textureX;
+    t.textureY = textureY;
+    t.renderX = renderX;
+    t.renderY = renderY;
+    t.collision = collision;
+
+    m_tVec.push_back(t);
+}
+
+void Tilemap::removeTile(Tile t)
+{
+    for (auto& t : m_tVec)
+    {
+        /* code */
+    }
+}
+
+void Tilemap::removeTile(std::string tag, float textureX, float textureY, float renderX, float renderY, bool collision)
+{
+
+}
+
+uint8_t Tilemap::save()
+{
+    std::filesystem::path currentDir = std::filesystem::current_path();
+    auto path = currentDir.string() + "/" + m_mapFilePath;
+
+    std::ofstream outputFile(path);
+    if (!outputFile)
+    {
+        std::cerr << "Failed to open file." << std::endl;
+        return 1;
+    }
+
+    for (auto& t : m_tVec)
+    {
+        outputFile << t.tag << " ";
+        outputFile << t.textureX << " ";
+        outputFile << t.textureY << " ";
+        outputFile << t.renderX << " ";
+        outputFile << t.renderY << " ";
+        outputFile << t.collision << std::endl;
+    }
+
+    outputFile.close();
+
+    return 0;
 }
 
 Vec2 Tilemap::gridToPixel(float gridX, float gridY)

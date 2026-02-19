@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-#include "GameEngine.h"
 #include "Vec2.h"
 #include "EntityManager.h"
 #include "Scene.h"
 #include <SFML/Graphics.hpp>
+#include "Assets.h"
 
 struct Tile
 {
@@ -27,6 +27,7 @@ class Tilemap
     std::string m_mapFilePath = "";
     std::string m_tileTag = "TILEMAP";
     TileVec m_tVec;
+    Tile m_errorTile;
     
     void setTexturePath(std::string &path);
     void setTileTag(std::string &tag);
@@ -43,6 +44,12 @@ public:
     TileVec getTileVector();
     std::string getTextureTag();
     std::string getTileTag();
+    Tile& getTileByPosition(float renderX, float renderY);
+    void addTile(Tile t);
+    void addTile(std::string tag, float textureX, float textureY, float renderX, float renderY, bool collision);
+    void removeTile(Tile t);
+    void removeTile(std::string tag, float textureX, float textureY, float renderX, float renderY, bool collision);
+    uint8_t save();
     Vec2 gridToPixel(float gridX, float gridY);
     Vec2 gridToMidPixel(float gridX, float gridY);
 };
