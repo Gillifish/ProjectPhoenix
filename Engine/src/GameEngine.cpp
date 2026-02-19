@@ -97,7 +97,7 @@ void GameEngine::sUserInput()
 
         if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased)
         {
-            // offset mouse button codes by 1000 to avoid collisions with keyboard key codes
+            // Offset mouse button codes by 1000 to avoid collisions with keyboard key codes
             int mouseCode = event.mouseButton.button + 1000;
 
             if (currentScene()->getActionMap().find(mouseCode) == currentScene()->getActionMap().end()) { continue; }
