@@ -6,6 +6,7 @@
 #include "Tilemap.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Logger.h"
 
 // Class used for testing various functionality of the game engine
 class ExampleScene : public Scene

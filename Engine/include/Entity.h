@@ -36,7 +36,7 @@ class Entity
 public:
     void destroy();
     const std::string &tag() const;
-    const size_t id() const;
+    size_t id() const;
     bool isActive() const;
 
     template <typename T>
