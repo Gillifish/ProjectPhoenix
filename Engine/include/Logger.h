@@ -1,11 +1,14 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include <fstream>
 
 class Logger
 {
 private:
 	static Logger* _instance;
-	std::string m_logPath = "logs/log.txt";
+	static std::string m_logPath;
+	static std::ofstream m_fileHandler;
 
 	static void fileInit(std::string path);
 
@@ -29,6 +32,7 @@ public:
 	static void log(MSG_TYPE type, std::string msg);
 
 	// Logs only to console
-	static void logToConsole(MSG_TYPE type, std::string msg);
+	static std::string logToConsole(MSG_TYPE type, std::string msg);
 
+	static void destroy();
 };
