@@ -23,22 +23,6 @@ void Editor::init(const std::string &levelPath)
     m_tilemap.loadMap(m_entityManager, m_game->assets());
 }
 
-void Editor::sMovement()
-{
-}
-
-void Editor::sLifespan()
-{
-}
-
-void Editor::sCollision()
-{
-}
-
-void Editor::sAnimation()
-{
-}
-
 void Editor::sDebug()
 {
 
@@ -61,6 +45,13 @@ void Editor::sRender()
     }
 }
 
+void Editor::sImGuiWindow()
+{
+    ImGui::Begin("Tilemap Information");
+    ImGui::Text("Test");
+    ImGui::End();
+}
+
 void Editor::sDoAction(const Action &action)
 {
 
@@ -70,7 +61,7 @@ void Editor::update()
 {
     m_entityManager.update();
 
-    sAnimation();
+    sImGuiWindow();
     sRender();
 }
 

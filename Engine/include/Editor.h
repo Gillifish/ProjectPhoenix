@@ -17,11 +17,8 @@ class Editor : public Scene
 
     void init(const std::string &levelPath);
 
-    void sAnimation();
-    void sMovement();
-    void sLifespan();
-    void sCollision();
     void sRender();
+    void sImGuiWindow();
     void sDoAction(const Action &action);
     void sDebug();
     void onEnd();
