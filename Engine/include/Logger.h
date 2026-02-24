@@ -11,7 +11,7 @@ class Logger
 private:
 	static Logger* _instance;			// Single static instance of logger
 	static std::string m_logPath;		// Path for the default log file called latest.txt
-	static std::ofstream m_fileHandler; // ofstream filehandler
+	static std::fstream m_fileHandler; // ofstream filehandler
 
 	// Opens the default file
 	static void fileInit(std::string path);
@@ -39,6 +39,15 @@ public:
 
 	// Logs only to console
 	static std::string logToConsole(MSG_TYPE type, std::string msg);
+
+	// Gives timestamp for date and time
+	static std::string timestamp();
+
+	// Saves log to a custom path
+	static void saveLogAbsolute(std::string path);
+	
+	// Saves log to log directory
+	static void saveLogLocal();
 
 	// Closes file and frees any allocated resources
 	static void destroy();

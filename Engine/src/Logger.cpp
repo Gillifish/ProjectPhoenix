@@ -13,7 +13,7 @@ Logger::Logger()
 }
 
 Logger* Logger::_instance = 0;
-std::ofstream Logger::m_fileHandler;
+std::fstream Logger::m_fileHandler;
 
 Logger* Logger::getInstance() 
 {
@@ -35,6 +35,9 @@ void Logger::fileInit(std::string path)
 	}
 
 	logToConsole(Logger::INFO, "Successfully opened log file.");
+
+	m_fileHandler << "ProjectPhoenix Log for " << timestamp() << "\n";
+	m_fileHandler << "===============================================\n";
 }
 
 void Logger::changeLogPath(std::string newPath)
@@ -107,6 +110,53 @@ std::string Logger::logToConsole(MSG_TYPE type, std::string msg)
 	}
 
 	return returnMessage;
+}
+
+std::string Logger::timestamp()
+{
+	auto now = std::chrono::system_clock::now();
+    std::time_t t = std::chrono::system_clock::to_time_t(now);
+    std::tm* local = std::localtime(&t);
+
+	std::ostringstream oss;
+	oss << std::put_time(local, "%D at %H:%M:%S");
+	std::string timeStr = oss.str();
+
+	return timeStr;
+}
+
+void Logger::saveLogAbsolute(std::string path)
+{
+	std::stringstream buffer;
+	std::streampos savedPos = m_fileHandler.tellg();
+	m_fileHandler.seekg(0);
+	buffer << m_fileHandler.rdbuf();
+
+	m_fileHandler.seekg(savedPos);
+
+	std::string content = buffer.str();
+
+	std::ofstream destinationFile(path);
+
+	destinationFile << content;
+
+	destinationFile.close();
+}
+	
+void Logger::saveLogLocal()
+{
+	auto now = std::chrono::system_clock::now();
+    std::time_t t = std::chrono::system_clock::to_time_t(now);
+    std::tm* local = std::localtime(&t);
+
+	std::ostringstream oss;
+	oss << std::put_time(local, "%Y-%m-%d_%H-%M-%S");
+	std::string timeStr = oss.str();
+
+	std::string path = "";
+	path += "logs/" + timeStr + ".txt";
+
+	saveLogAbsolute(path);
 }
 
 void Logger::destroy()

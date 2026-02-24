@@ -58,8 +58,15 @@ void Tilemap::loadMap(EntityManager &eManager, Assets &assets)
         sprite.setTextureRect(sf::IntRect(v.x, v.y, getTileSize().x, getTileSize().y));
         sprite.setOrigin(getTileSize().x / 2, getTileSize().y / 2);
 
+        e->addComponent<CBoundingBox>(getTileSize());
+
+        auto& bBox = e->getComponent<CBoundingBox>();
+        bBox.active = true;
+
         auto pos = gridToMidPixel(tile.renderX, tile.renderY);
         sprite.setPosition(pos.x, pos.y);
+
+        e->addComponent<CTransform>(pos);
     }
 }
 
