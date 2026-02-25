@@ -19,7 +19,7 @@ void Editor::init(const std::string &levelPath)
 {
     Logger::getInstance();
     Logger::log(Logger::DEBUG, "Initializing tilemap editor...");
-    m_tilemap = Tilemap("outside_tileset", Vec2(32, 32), "config/testmap.txt");
+    m_tilemap = Tilemap("outside_tileset", Vec2(32, 32), Vec2(16, 16), "config/testmap.txt");
     m_tilemap.loadMap(m_entityManager, m_game->assets());
 }
 

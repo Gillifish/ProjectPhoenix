@@ -12,7 +12,7 @@ void ExampleScene::init()
 {
     Logger::getInstance();
     Logger::log(Logger::DEBUG, "Initializing example scene...");
-    m_tilemap = Tilemap("outside_tileset", Vec2(32, 32), "config/testmap.txt");
+    m_tilemap = Tilemap("outside_tileset", Vec2(32, 32), Vec2(32, 32), "config/testmap.txt");
     m_tilemap.loadMap(m_entityManager, m_game->assets());
 
     auto e = m_entityManager.addEntity("player");

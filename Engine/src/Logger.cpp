@@ -27,7 +27,7 @@ Logger* Logger::getInstance()
 
 void Logger::fileInit(std::string path)
 {
-	m_fileHandler.open(path);
+	m_fileHandler.open(path, std::ios::in | std::ios::out | std::ios::trunc);
 	if (!m_fileHandler.is_open())
 	{
 		std::cerr << "Failed to open log file at " << path << std::endl;
@@ -127,19 +127,17 @@ std::string Logger::timestamp()
 
 void Logger::saveLogAbsolute(std::string path)
 {
-	std::stringstream buffer;
-	std::streampos savedPos = m_fileHandler.tellg();
+	m_fileHandler.flush();
+	m_fileHandler.clear();
 	m_fileHandler.seekg(0);
+	std::stringstream buffer;
 	buffer << m_fileHandler.rdbuf();
-
-	m_fileHandler.seekg(savedPos);
-
 	std::string content = buffer.str();
 
+	m_fileHandler.seekp(0, std::ios::end);
+
 	std::ofstream destinationFile(path);
-
 	destinationFile << content;
-
 	destinationFile.close();
 }
 	
@@ -161,6 +159,8 @@ void Logger::saveLogLocal()
 
 void Logger::destroy()
 {
+	log(Logger::INFO, "Closing logger.");
+
 	if (m_fileHandler.is_open())
 	{
 		m_fileHandler.close();
